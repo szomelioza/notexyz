@@ -2,14 +2,30 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-NOTES_DIR = os.getenv("NOTES_DIR", "notes")
-NOTES_DIR = Path(NOTES_DIR)
+NOTES_DIR = Path(os.getenv("NOTES_DIR", "notes"))
 
 
-def today_note_exists():
+def get_latest_note_content():
     """
-    Check if a note for today exists in the NOTES_DIR.
+    Get content of the latest note.
     """
-    today_str = datetime.now().strftime("%d-%m-%Y")
-    file_path = NOTES_DIR / f"{today_str}.md"
-    return file_path.is_file()
+    today_note_path = NOTES_DIR / datetime.now().strftime("%d-%m-%Y.md")
+    if today_note_path.is_file():
+        return read_note(today_note_path)
+
+    dates = []
+    for path in list(NOTES_DIR.glob("*.md")):
+        try:
+            note_date = datetime.strptime(path.stem, "%d-%m-%Y")
+            dates.append((note_date, path))
+        except ValueError:
+            pass
+    latest_note_path = max(dates, key=lambda note: note[0])[1]
+    return read_note(latest_note_path)
+
+
+def read_note(path):
+    """
+    Get content of the note by given path.
+    """
+    return path.read_text(encoding="utf-8")

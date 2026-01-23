@@ -1,12 +1,11 @@
 from flask import Blueprint
 
-from .utils.notes import today_note_exists
+from .utils.notes import get_latest_note_content
 
 bp = Blueprint("api", __name__)
 
 
 @bp.get("/note")
 def get_note():
-    if today_note_exists():
-        return {"result": "Exists!"}
-    return {"result": "missing"}
+    note_text = get_latest_note_content()
+    return {"result": note_text}
