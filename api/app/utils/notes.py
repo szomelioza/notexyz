@@ -5,7 +5,7 @@ from pathlib import Path
 NOTES_DIR = Path(os.getenv("NOTES_DIR", "notes"))
 
 
-def get_latest_note_content():
+def get_latest_note():
     """
     Get content of the latest note.
     """
