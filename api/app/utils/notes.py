@@ -9,14 +9,14 @@ def get_latest_note():
     """
     Get content of the latest note.
     """
-    today_note_path = NOTES_DIR / datetime.now().strftime("%d-%m-%Y.md")
+    today_note_path = NOTES_DIR / datetime.now().strftime("%Y-%m-%d.md")
     if today_note_path.is_file():
         return read_note(today_note_path)
 
     dates = []
     for path in list(NOTES_DIR.glob("*.md")):
         try:
-            note_date = datetime.strptime(path.stem, "%d-%m-%Y")
+            note_date = datetime.strptime(path.stem, "%Y-%m-%d")
             dates.append((note_date, path))
         except ValueError:
             pass

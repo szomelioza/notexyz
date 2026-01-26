@@ -1,0 +1,33 @@
+---
+services:
+  syncthing:
+    image: syncthing/syncthing:2.0.13
+    container_name: syncthing
+    restart: always
+    user: "1000:1000"
+    volumes:
+      - syncthing_vol:/var/syncthing
+      - notexyz_vol:/notexyz
+    ports:
+      - 22000:22000
+      - 21027:21027/udp
+      - 8384:8384
+  notexyz:
+    build: .
+    container_name: notexyz
+    restart: always
+    user: "1000:1000"
+    depends_on:
+      - syncthing
+    ports:
+      - 5000:5000
+    volumes:
+      - notexyz_vol:/notexyz:ro
+      - notexyz_imgs_vol:/images
+    environment:
+      - NOTES_DIR=/notexyz
+
+volumes:
+  syncthing_vol:
+  notexyz_vol:
+  notexyz_imgs_vol:

@@ -16,7 +16,7 @@ FONT_BOLD = ImageFont.truetype(str(FONT_BOLD_PATH), FONT_SIZE)
 
 
 # Images
-IMAGES_DIR = Path(os.getenv("IMAGES_DIR", "images"))
+IMAGES_DIR = Path(os.getenv("IMAGES_DIR", "/images"))
 IMG_WIDTH, IMG_HEIGHT = 400, 300
 
 
