@@ -8,6 +8,6 @@ ENV FLASK_RUN_HOST=0.0.0.0
 COPY ./requirements.txt app/
 RUN pip install --no-cache-dir -r app/requirements.txt
 
-COPY app app/
+COPY ./app app/
 
 ENTRYPOINT ["flask", "run"]
