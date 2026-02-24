@@ -10,9 +10,11 @@ bp = Blueprint("api", __name__)
 
 @bp.get("/note")
 def get_note():
-    note_text = get_latest_note()
-    image = get_image(note_text)
     stream = request.args.get("stream", "false").lower() == "true"
+    recreate = request.args.get("recreate", "false").lower() == "true"
+    basic = request.args.get("basic", "false").lower() == "true"
+    note_text = get_latest_note()
+    image = get_image(note_text, recreate=recreate, basic=basic)
 
     if stream:
         image = image.convert("1")

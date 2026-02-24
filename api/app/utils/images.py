@@ -9,17 +9,22 @@ from .settings import (FONT_BOLD, FONT_REGULAR, HEADLESS_ADDRESS, IMAGES_DIR,
                        IMG_WIDTH)
 
 
-def get_image(text):
+def get_image(text, recreate=False, basic=False):
     """
     Check if image already exists and return it.
     If not create it and return it.
     """
     image_path = get_image_path(text)
-    if image_path.is_file():
-        image = Image.open(image_path)
+    if not recreate:
+        if image_path.is_file():
+            image = Image.open(image_path)
     else:
-        if HEADLESS_ADDRESS:
-            image = generate_image_headless(text)
+        if HEADLESS_ADDRESS and not basic:
+            try:
+                image = generate_image_headless(text)
+            except Exception as e:
+                print(f"Headless rendering failed: {e}")
+                image = generate_image_basic(text)
         else:
             image = generate_image_basic(text)
         add_logo(image)

@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r app/requirements.txt
 
 COPY api/app/ app/
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "'app:create_app()'"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:create_app()"]
